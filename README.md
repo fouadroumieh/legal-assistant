@@ -31,7 +31,7 @@ docapi/         # FastAPI backend
 nlp_service/    # NLP extraction service
 frontend/       # React + Vite frontend
 cdk/            # AWS CDK stacks
-source/.        # Lambdas
+source/         # Lambdas
 ```
 
 ---
@@ -64,21 +64,18 @@ STAGE=dev
 cdk deploy CoreStack --context stage=$STAGE
 cdk deploy NlpStack --context stage=$STAGE
 cdk deploy IngestionStack --context stage=$STAGE
-cdk deploy ApiStack --context stage=$STAGE  # ensure NLP_URL is set
+cdk deploy ApiStack --context stage=$STAGE  
 
 # Build frontend.
 
 npm --prefix frontend install && npm --prefix frontend run build
 
-Create/Update `.env` with api url that you can find in AppRunner under service docstack-<stage>-docapi:
 ```
-
+Create/Update `.env` with api url that you can find in AppRunner under service docstack-<stage>-docapi:  
 VITE_API_BASE_URL=https://xxxxx.eu-central-1.awsapprunner.com/
-
-```
-
 Frontend url: https://d2opskdbm2go75.cloudfront.net/
 
+```
 # Deploy frontend stack
 cdk deploy FrontendStack --context stage=$STAGE
 
@@ -157,6 +154,7 @@ Example response:
     - `GET /docs` (list latest docs)
     - `POST /upload/presign` (direct browser → S3)
     - `POST /query` (Mass Interrogation / NLQ filtering over DynamoDB)
+    - `GET /dashboard` (Returns charts data)
   - Talks to **DynamoDB** & **S3**; calls **NLP** for interpreting NLQ.
 
 - **Frontend (S3 + CloudFront)**
